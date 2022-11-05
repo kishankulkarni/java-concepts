@@ -1,5 +1,6 @@
 package com.java.concepts.interview.programs;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,13 +11,13 @@ import java.util.stream.Collectors;
 public class FindFirstNonRepeatedCharInString {
 
 	public static void main(String[] args) {
-		String str = "Javja";
+		String str = "Javja vteste";
 		usingStream(str);
 		withoutStream(str);
 	}
 
 	private static void usingStream(String str) {
-		Optional<Character> res = str.chars().mapToObj(s -> Character.toLowerCase((char) s))
+		Optional<Character> res = str.replace(" ", "").chars().mapToObj(s -> Character.toLowerCase((char) s))
 				.collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
 				.entrySet().stream().filter(c -> c.getValue() == 1L).map(Entry::getKey).findFirst();
 
@@ -29,9 +30,10 @@ public class FindFirstNonRepeatedCharInString {
 
 	private static void withoutStream(String str) {
 		Map<Character, Integer> charCount = new LinkedHashMap<>();
-		for (int i = 0; i < str.length(); i++) {
-			charCount.put(str.toLowerCase().charAt(i),
-					charCount.containsKey(str.charAt(i)) ? charCount.get(str.charAt(i)) + 1 : 1);
+		String trimmedStr = str.replace(" ", "");
+		for (int i = 0; i < trimmedStr.length(); i++) {
+			charCount.put(trimmedStr.toLowerCase().charAt(i),
+					charCount.containsKey(trimmedStr.charAt(i)) ? charCount.get(trimmedStr.charAt(i)) + 1 : 1);
 		}
 		for (Map.Entry<Character, Integer> entry : charCount.entrySet()) {
 			if (entry.getValue() == 1) {
