@@ -15,9 +15,11 @@ public class Child extends Parent{
     }
 
     public static void main(String[] args) {
-        Child c = new Child();
+        int b;
+        Parent c = new Child();
         c.foo();
         c.a = 20;
         System.out.println(c.a);
+
     }
 }
